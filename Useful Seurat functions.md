@@ -15,6 +15,7 @@ hist(log10(counts_per_cell+1),main='counts per cell',col='wheat')
 hist(log10(genes_per_cell+1), main='genes per cell', col='wheat')
 plot(counts_per_cell, genes_per_cell, log='xy', col='wheat')
 title('counts vs genes per cell')
+plot(sort(genes_per_cell), xlab='cell', log='y', main='genes per cell (ordered)')
 ```
 
 
