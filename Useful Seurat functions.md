@@ -33,3 +33,77 @@ pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
 VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 ```
 
+### Evaluate Variance explained by PCs to select the right amount for UMAP
+
+```R
+ElbowPlot(object = obj)
+# The same as 
+plot(obj@reductions$pca@stdev)
+```
+
+### Find markers for a specified clustering meta_field
+
+```r
+# the same as 
+Idents(tongue) <- tongue@meta.data$free_annotation
+markers <- FindAllMarkers(tongue, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25, test.use = "roc")
+```
+
+### Annotate cluster based on example clustering with SingleR
+
+```r
+library(SingleR)
+tongue.ref <- as.SingleCellExperiment(tongue, assay = "RNA")
+lfile.ann <- as.SingleCellExperiment(lfile.filtered, assay = "RNA")
+
+predictions <- SingleR(test=lfile.ann, assay.type.test=1, 
+                       ref=tongue.ref, labels=tongue.ref$free_annotation)
+
+plotScoreHeatmap(predictions)
+
+# Import annotations
+lfile.filtered <- AddMetaData(lfile.filtered, metadata = predictions$labels, col.name = "free_annotation")
+```
+
+### Identify relevant number of PCAs to use for tSNE and UMAP dimensionality reduction
+
+```r
+#Jackstraw 
+png("Epithelial/Elbow.png")
+ElbowPlot(epithelial, ndims = 80)
+dev.off()
+epithelial <- JackStraw(epithelial, num.replicate = 100,dims=80)
+epithelial <- ScoreJackStraw(epithelial, dims = 1:80)
+png("Epithelial/JackStraw.png")
+JackStrawPlot(epithelial, dims = 1:80)
+dev.off()
+#From JackStraw we see 66 dim are significant
+```
+
+## Magic imputation of low expressed genes
+
+https://github.com/satijalab/seurat/issues/612
+
+in `genes` you have to select highly variable genes + your genes of interest. If the number of total genes selected it's too slow, results will become too sensitive to the input.
+
+```r
+pbmc <- CreateSeuratObject(...)
+pbmc <- ScaleData(pbmc)
+MAGIC_pbmc <- magic(pbmc, genes=pbmc@var.genes)
+# or MAGIC_pbmc <- magic(pbmc, genes="all_genes")
+MAGIC_pbmc <- RunPCA(MAGIC_pbmc )
+MAGIC_pbmc <- RunTSNE(MAGIC_pbmc, dims.use = 1:10)
+TSNEPlot(MAGIC_pbmc)
+```
+
+Some people recommend to keep clustering and running PCA on original data and not on the MAGIC-imputed one (it also takes longer).
+
+Or in the developmental version
+
+```r
+devtools::install_github("KrishnaswamyLab/MAGIC", subdir='Rmagic')
+# Run
+magic(seurat_obj)
+# and you'll add a new assay named MAGIC_RNA
+```
+
