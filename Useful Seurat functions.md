@@ -107,3 +107,32 @@ magic(seurat_obj)
 # and you'll add a new assay named MAGIC_RNA
 ```
 
+## Phate dimensionality reduction
+
+```r
+library("phateR")
+normalized_data <- GetAssayData(obj)
+# Don't run it in multicore (at leas on macOS)
+# Transpose the sparse matrix, phate expects cells as row, genes as columns
+data_phate <- phate(t(normalized_data), npca = 12, gamma = 1)
+
+# Preview the embedding
+quickplot(x=data_phate$embedding[,1], y=data_phate$embedding[,2 ])
+
+colnames(data_phate$embedding) <- paste0("PHATE_", 1:2)
+# We will now store this as a custom dimensional reduction called 'mds'
+obj[["phate"]] <- CreateDimReducObject(embeddings = data_phate$embedding, key = "PHATE_", assay = DefaultAssay(obj))
+```
+
+PhateR runs in reticulate virtual env, thus you have to install python phate in that virtual env trough reticulate `reticulate::py_install("phate", pip=TRUE)` and eventual other missing python dependencies as `packaging`
+
+## Nebulosa density gene expression plot
+
+I don't linke this kind of plot because it is more representative of the cell nubmer than of the real expression level
+
+```r
+# install from github
+library(Nebulosa)
+plot_density(seur_obj, c("Actb", "Gapdh"))
+```
+
