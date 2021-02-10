@@ -69,13 +69,10 @@ lfile.filtered <- AddMetaData(lfile.filtered, metadata = predictions$labels, col
 
 ```r
 #Jackstraw 
-png("Epithelial/Elbow.png")
 ElbowPlot(epithelial, ndims = 80)
-dev.off()
 epithelial <- JackStraw(epithelial, num.replicate = 100,dims=80)
-epithelial <- ScoreJackStraw(epithelial, dims = 1:80)
-png("Epithelial/JackStraw.png")
-JackStrawPlot(epithelial, dims = 1:80)
+epithelial <- ScoreJackStraw(epithelial, dims = 1:80, do.plot = TRUE)
+# JackStrawPlot(epithelial, dims = 1:80)
 dev.off()
 #From JackStraw we see 66 dim are significant
 ```
