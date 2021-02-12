@@ -70,3 +70,34 @@ conda activate miso
 pip install misopy
 ```
 
+## RSEM
+
+You need to compile RSEM from the github source code.
+
+The install argument will move the installation in the `/usr/local/bin` directory
+
+```bash
+git clone https://github.com/deweylab/RSEM.git
+cd RSEM
+sudo make install
+```
+
+Yo may have problems with installation due to a custom compiler installed in conda (eg gxx_linux-64 required for compiling velocyto). In order to compiler RSEM it's recomended to `conda deactivate` in order to user system compiler
+
+you may also need to install the developmental version of zlib ``sudo apt-get install -y zlib1g-dev``
+
+## velocyto 
+
+First of all install all the python dependencies
+
+```bash
+conda install numpy scipy cython numba matplotlib scikit-learn h5py click
+```
+
+than install velocyto
+
+`pip install --user velocyto`
+
+If it fails, you may need a custom compiler
+
+`conda install gxx_linux-64`
