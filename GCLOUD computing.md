@@ -108,10 +108,7 @@ https://www.guguweb.com/2019/02/07/how-to-move-docker-data-directory-to-another-
 ## copy file from bucket
 
 ```bash
-mkdir -p /mnt/SW480_variant_call/raw_data
 gsutil -m cp -r gs://bulk-rnaseq/* /mnt/SW480_variant_call/raw_data
-
-mkdir -p /mnt/SW480_variant_call/sandbox /mnt/SW480_variant_call/logs /mnt/SW480_variant_call/scripts
 ```
 
 ## Organize the tool folder
