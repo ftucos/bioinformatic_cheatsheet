@@ -100,9 +100,15 @@ Or in the developmental version
 ```r
 devtools::install_github("KrishnaswamyLab/MAGIC", subdir='Rmagic')
 # Run
-magic(seurat_obj)
+seurat_obj <- magic(seurat_obj, genes = append(c("GENES", "TO", "IMPUTE"),
+                                               VariableFeatures(seurat_obj)))
 # and you'll add a new assay named MAGIC_RNA
+
+# Visualize it
+VlnPlot(seurat_obj, features = c("CDK2AP1", "PTEN", "PDCD4"), group.by = "clusters", assay = "MAGIC_RNA")
 ```
+
+To visualize imputed genes in DimPlot a simple trick is to copy that gene expression level in the metadata
 
 ## Phate dimensionality reduction
 
@@ -132,4 +138,9 @@ I don't linke this kind of plot because it is more representative of the cell nu
 library(Nebulosa)
 plot_density(seur_obj, c("Actb", "Gapdh"))
 ```
+
+## Mathijs recomandation for Gene Signature Scoring
+
+1. Compute Z score of your genes/magic imputed genes
+2. Take the average of the genes in the signature (made only of highly expressed genes)
 
