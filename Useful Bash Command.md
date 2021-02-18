@@ -28,6 +28,43 @@ echo "Argument 10 is: ${10}"
 echo "Passed a total number of $# arguments"
 ```
 
+#### Named variables
+
+Example from https://github.com/ludvigla/VisiumTrim/blob/main/TSO_polyA_trimming.sh
+
+```bash
+# Get script name
+SCRIPT=$(basename "$0")
+
+FASTQ=''
+while (( "$#" )); do
+  case "$1" in
+    -l|--homopolymer-length)
+      LENGTH=$2
+      shift 2
+      ;;
+    -o|--output)
+      OUTPUT=$2
+      shift 2
+      ;;
+    -e|--error-tolerance)
+      ETOL=$2
+      shift 2
+      ;;
+    --overlap)
+      OVERLAP=$2
+      shift 2
+      ;;
+    -h|--help)
+cat << EOF
+$SCRIPT [-h] [-l -o -e --overlap n] 
+...
+```
+
+
+
+
+
 #### Mandatory and optional variables
 
 ```bash
