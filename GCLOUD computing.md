@@ -70,9 +70,9 @@ conda config --append channels bioconda
 conda config --append channels conda-forge
 
 # install required packages
-conda install r numpy scipy cython numba matplotlib gxx_linux-64 scikit-learn h5py click bamtools parallel samtools bowtie jupyter nextflow nf-core notebook picard sra-tools vcftools igv loompy trim-galore fastqc r-base -y
+conda install r numpy scipy cython numba matplotlib gxx_linux-64 scikit-learn h5py click bamtools parallel samtools bowtie jupyter nextflow nf-core notebook picard sra-tools vcftools igv loompy trim-galore fastqc r-base seaborn statsmodels numba pytables -y
 
-pip install multiqc scvelo velocyto fastqp
+pip install multiqc scvelo velocyto fastqp scanpy MulticoreTSNE
 
 # Install R-studio server
 sudo apt-get update
