@@ -1,5 +1,26 @@
 # Useful scRNAseq Functions
 
+## scRNAseq Analysis notes
+
+Standard workflows expects:
+
+1. **Filtering**
+
+   1. Filter cells with low counts and expecially low number different of genes expressed (automatically performed by STAR or Cell Ranger, but you can be more inclusive doing it manually). The general approach is to plot the total number of counts and features on a log_y scale and cells ranked from highest to lowest and identify the elbow of the plot
+   2. Filter genes with at leas 1 counts in more the a certain number of cells (just 1 if you want to be super conservative). It makes no sense to perform downstream analysis on genes with 0 count an almost all the cells
+
+2. Evaluate % of mitochondrial DNA. Usually a common treshold is below 5%. But for cells sorted for long time the % can reach up to 20-25%
+
+3. **Normalize** each cell for the total number of counts (even better for total counts excluding mt-DNA). Than, to avoid to deal with small numbers, multiply back for a scaling factor. Somebody multiplies for 10^6 to obtain CountsPerMillion. This measure is not really meaningful for scRNAseq since individual cells don't express millions of transcripts (extimated 350.000 mRNA molecules per cell). The best approach is to scale for the median number of reads for the sequencing experiments (10-40.000 reads). This gives back a dimension of values close to the original number of counts retrieved for each cell.
+
+   *Some people now log1p transforms the counts and scales them (z-score) to identify highly variable genes. Then they retain only highly variable genes and renormalize the reads*
+
+4. **Log transform**: The variance is proportional to the average expression of a gene and is not normally distributed. Thus to stabilize the variance across all the genes we log transform the data (this is automatically performed by default in the seurat function ` NormalizeData()` ). In order avoid to get -infinity values for 0 reads, we add a *pseudocount* of 1 so that they get log scaled to 0. Unfortunately this approach overextimates the variance of lovly epxressed genes. There are other approaches as rlog but they are mainly used in bulk-rnaseq and are not available in routinely workflows for scRNAseq. Note: in bulk RNAseq, log transformed (and than z-scored reads) are used uniquely for heatmap, PCA, clustering etc but not for differential expression becuase edgeR and DEseq2 packages requires raw counts and uses custom scaling methods
+
+5.  **Scale**: for PCA, clustering etc, you need to center (mean = 0) and scale (sd =1) all the genes actually converting them in z-scores. You can also use scaled counts for plotting on scatters and violin plots, but people are more used to see log transformed expression values. Note: you should not scale non log-transformed expression values since they are not normally distributed.
+
+
+
 ## Matrix
 
 Filter low quality cells
