@@ -266,12 +266,33 @@ do
 done
 ```
 
+**Alternative formatting**
+
 ```bash
+for f in *.bam
+do echo "Processing $f"
+done
+
+for f in *.bam; do
+  echo "Processing $f"
+done
+
 # semicolon can be used in place of line break
 for f in *.bam; do echo "Processing $f file.."; done
 ```
 
-## Parallelize for a list of file
+#### Parallelize on multicore
+
+```bash
+for f in *.bam; do
+	echo "Processing $f" & done
+```
+
+This approach will take advantage of all the cores available and overload your machine, a better and more controlled approach is to use xargs or GNU parallel
+
+## Parallelize for a list of file with GNU Parallel
+
+GNU parallel is a bit slower (+3 ms/job vs +0.3 ms/job) but more complete alternative to `xargs`. Specifically, GNU parallel handles better special characters as excapes, pipes and newlines.
 
 documentation: https://www.gnu.org/software/parallel/parallel_tutorial.html
 
