@@ -56,6 +56,28 @@ To automate the mount at the every boot of the machine, go on google cloud, edit
      IdentityFile ~/.ssh/gcloud_bioinformatics
    ```
 
+## Change .bashrc
+
+```bash
+# Makes the prompt much more user friendly.
+# But I do agree that the command to set it up looks a bit crazy.
+export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$ '
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+alias ll='ls -lah'
+
+## Safe versions of the default commands.
+## Will ask permissions before overwriting files.
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+```
+
+
+
 ## Install softwares
 
 ```bash
