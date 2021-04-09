@@ -24,7 +24,7 @@ samtools view -b file.bam | less
 ### generate index
 
 ```bahs
- parallel  samtools index ::: *.bam
+samtools index *.bam --threads 8
 ```
 
 ### Check Read Group
