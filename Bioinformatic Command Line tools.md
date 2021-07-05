@@ -100,7 +100,14 @@ find ./processed/bam -name "*.sorted.bam" | parallel samtools index {}
 samtools view -T GRCh38.fasta -C -o file.cram file.bam
 ```
 
+### Convert BAM to BED and add offset (for ATACseq footprint analysis)
 
+```shell
+bedtools bamtobed -i bowtie_dup_rm.bam > my.bed
+# Shift the forward reads 4bp and reverse reads 5bp:
+awk 'BEGIN {OFS = "\t"} ; {if ($6 == "+") print $1, $2 + 4, $3 + 4, $4, $5, $6; else print $1, $2 - 5, $3 - 5, $4, $5, $6}' my.bed > my_shifted.bed
+
+```
 
 ### generate positive and negative coverage visualization from BAM file
 
