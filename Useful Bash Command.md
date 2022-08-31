@@ -31,7 +31,7 @@ echo "Passed a total number of $# arguments"
 #### Named variables
 
 Example from https://github.com/ludvigla/VisiumTrim/blob/main/TSO_polyA_trimming.sh
-
+Explanation here https://www.geeksforgeeks.org/shift-command-in-linux-with-examples/
 ```bash
 # Get script name
 SCRIPT=$(basename "$0")
