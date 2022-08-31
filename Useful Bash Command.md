@@ -960,3 +960,30 @@ git add .gitignore
 git commit -m '.DS_Store banished!'
 ```
 
+### Setup remote key
+
+```bash
+# generate an rsa key (dsa not supported by GitHub)
+ssh-keygen -t rsa
+# a prompt will ask you for the name: e.g. 
+> github_ftucos
+# copy the public key to the clipboard
+pbcopy < github_ftucos.pub
+# Add it to your public access key in github (in settings)
+# edit your ~/.ssh/config by adding:
+Host github_as_ftucos
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/github_ftucos
+  IdentitiesOnly yes
+```
+
+When you add a remote to your github repo, replace github.com with the host name in the `.ssh/config`
+
+```bash
+# replace
+git remote add origin git@github.com:ftucos/repo-name.git
+# with
+git remote add origin git@github_as_ftucos:ftucos/repo-name.git
+```
+

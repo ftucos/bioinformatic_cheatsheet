@@ -214,7 +214,7 @@ data.frame$col %<>% factor(levels = c("first", "second", "third"))
 #### Calculate Standard Error
 
 ```r
-st.err <- function(x) {sd(x, na.rm=TRUE)/sqrt(length(x[!is.na(x)]))
+st.err <- function(x) {sd(x, na.rm=TRUE)/sqrt(length(x[!is.na(x)]))}
 ```
 
 ## ggplot2

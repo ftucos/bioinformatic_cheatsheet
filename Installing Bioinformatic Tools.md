@@ -101,3 +101,33 @@ than install velocyto
 If it fails, you may need a custom compiler
 
 `conda install gxx_linux-64`
+
+## MACS3
+
+https://github.com/macs3-project/MACS/blob/master/docs/INSTALL.md
+
+```bash
+conda create -n macs3 python=3.8
+conda activate macs3
+
+conda install -c conda-forge numpy Cython cykhash
+conda install -c bioconda fermi-lite
+pip install macs3
+```
+
+## PECA
+
+https://github.com/SUwonglab/PECA
+
+1. Install whatever you need from conda
+
+2. Install Matlab (full version, you need command line interpreted because the script runs code not compiled). You also need to install the optimization toolbox for the fsolve function.
+
+3. If on MacOS, Add matlab to the path (in the `~/.bashrc` or  `~/.bash_profile`: 
+
+   `export PATH="/Applications/MATLAB_R2022a.app/bin:$PATH"` and than comment in the bash script (PECA.sh,...) the `module load matlab` section (that makes sense only on linux)
+
+   also added ` -p 8` to HOMER scripts to enable multicore processing.
+
+4. chek to have the required genome (eg hg38) installed in homer: `less /Users/tucos/opt/anaconda3/envs/macs3/share/homer-4.10-0/.//config.txt` otherwise install it `perl /Users/tucos/opt/anaconda3/envs/macs3/share/homer-4.10-0/.//configureHomer.pl -install hg38`
+

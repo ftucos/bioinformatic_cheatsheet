@@ -120,7 +120,7 @@ samtools view -h -b reads.sorted.bam | \
 bedtools bamtobed -ed -i - | \
 bedtools genomecov -split -strand "-" -i - -g hg19.chromosomeSize -bg | awk '{OFS="\t"}{print $1,$2,$3,$4*-1;}' >> reads.bedgraph
 
-# You need to resort the file since we simply uppended the positive and negative reads one belove the other
+# You need to resort the file since we simply appended the positive and negative reads one belove the other
 igvtools sort reads.bedgraph reads.sorted.bedgraph
 
 # Compress to binary version to increase loading speed (also applies some smoothing)
