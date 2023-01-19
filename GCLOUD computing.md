@@ -85,7 +85,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 # press space untill you have to input yes
 rm -f Miniconda3-latest-Linux-x86_64.sh
-source .bashrc
+source ~/.bashrc
 
 # add channels
 conda config --append channels bioconda
